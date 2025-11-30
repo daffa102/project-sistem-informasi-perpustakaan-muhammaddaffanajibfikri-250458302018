@@ -1,0 +1,23 @@
+Route::prefix('auth')->group(function () {
+    Route::get('/register', Register::class)->name('register');
+    Route::get('/login', Login::class)->name('login');
+       Route::post('/logout', function () {
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
+});
+
+Route::middleware('auth')->prefix('admin')->group(function () {
+        Route::get('dashboard', Dashboard::class)->name('admin.dashboard');
+        Route::get('user', User::class)->name('admin.user.dashboard');
+        Route::get('member', Member::class)->name('admin.member.dashboard');
+        Route::get('book', Book::class)->name('admin.book.dashboard');
+        Route::get('category', Category::class)->name('admin.category.dashboard');
+        Route::get('borrowing', Borrowing::class)->name('admin.borrowing.dashboard');
+        Route::get('fines', Fines::class)->name('admin.fines.dashboard');
+});
+
+Route::middleware('auth')->prefix('member')->group(function () {
+        Route::get('dashboard', \App\Livewire\Features\Member\Dashboard::class)->name('member.dashboard');
+        Route::get('dashboard/book/{id}', \App\Livewire\Features\Member\BookDetail::class)->name('member.book.detail');
+});
