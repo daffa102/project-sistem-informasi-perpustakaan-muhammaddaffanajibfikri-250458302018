@@ -279,7 +279,6 @@
         const chartData = getChartData();
         if (!chartData) return;
 
-        // Destroy chart lama jika ada
         if (memberChart) {
             try {
                 memberChart.destroy();
@@ -372,20 +371,17 @@
         }, 100);
     }
 
-    // Initial load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initCharts);
     } else {
         initCharts();
     }
 
-    // Handle Livewire wire:navigate (SPA navigation)
     document.addEventListener('livewire:navigated', function() {
         console.log('Livewire navigated - reinitializing charts');
         initCharts();
     });
 
-    // Cleanup sebelum navigasi keluar
     document.addEventListener('livewire:navigating', function() {
         console.log('Livewire navigating - cleaning up charts');
         if (categoryChart) {
@@ -398,7 +394,6 @@
         }
     });
 
-    // CRITICAL: Handle Livewire polling updates
     document.addEventListener('livewire:updated', function() {
         console.log('Livewire updated - refreshing charts with new data');
         initCharts();

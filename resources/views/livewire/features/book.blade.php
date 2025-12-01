@@ -33,9 +33,7 @@
                                    class="form-control w-50" placeholder="Search book...">
 
                             <button class="btn btn-primary"
-                                    wire:click="create"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#bookModal">
+                                    wire:click="create">
                                 <i class="bi bi-plus-circle me-1"></i> Add Book
                             </button>
                         </div>
@@ -316,7 +314,7 @@
 
                 {{-- Footer --}}
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    <button class="btn btn-secondary" wire:click="cancel">
                         <i class="bi bi-x-circle"></i> Cancel
                     </button>
 

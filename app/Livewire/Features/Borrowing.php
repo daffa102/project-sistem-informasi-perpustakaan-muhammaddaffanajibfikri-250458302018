@@ -32,7 +32,6 @@ class Borrowing extends Component
 
     public function mount()
     {
-        // Generate/update fines otomatis saat admin membuka halaman
         $this->generateAutomaticFines();
     }
 
@@ -80,7 +79,7 @@ class Borrowing extends Component
             'member_id' => $this->member_id,
             'book_id' => $this->book_id,
             'borrow_date' => $this->borrow_date,
-            'due_date' => Carbon::parse($this->borrow_date)->addDays(7), // Default 7 hari
+            'due_date' => Carbon::parse($this->borrow_date)->addDays(7),
             'return_date' => $this->return_date ?: null,
             'status' => $this->status ?? 'borrowed',
         ]);

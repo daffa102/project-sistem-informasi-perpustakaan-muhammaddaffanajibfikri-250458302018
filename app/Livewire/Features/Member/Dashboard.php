@@ -77,8 +77,7 @@ class Dashboard extends Component
         if ($this->search) {
             $query->where(function ($sub) {
                 $sub->where('title', 'like', '%' . $this->search . '%')
-                    ->orWhere('author', 'like', '%' . $this->search . '%')
-                    ->orWhere('isbn', 'like', '%' . $this->search . '%');
+                    ->orWhere('author', 'like', '%' . $this->search . '%');
             });
         }
 

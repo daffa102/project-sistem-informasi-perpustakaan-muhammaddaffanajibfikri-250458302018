@@ -128,7 +128,6 @@ class Book extends Component
             'stock' => $this->stock,
         ]);
 
-        // update image jika upload baru
         if ($this->image && is_object($this->image)) {
             if ($book->image && Storage::disk('public')->exists($book->image)) {
                 Storage::disk('public')->delete($book->image);
@@ -235,5 +234,11 @@ class Book extends Component
     {
         $this->resetInput();
         $this->dispatch('showModal');
+    }
+
+    public function cancel()
+    {
+        $this->resetInput();
+        $this->dispatch('closeModal');
     }
 }

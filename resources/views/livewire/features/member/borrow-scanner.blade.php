@@ -99,7 +99,7 @@
                     <div class="space-y-1 text-sm">
                         <p><span class="font-medium">Judul:</span> {{ $scannedBook->title }}</p>
                         <p><span class="font-medium">Penulis:</span> {{ $scannedBook->author }}</p>
-                        <p><span class="font-medium">ISBN:</span> {{ $scannedBook->isbn }}</p>
+
                     </div>
                 </div>
 
