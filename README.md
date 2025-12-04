@@ -104,4 +104,4 @@ Untuk menjalankan aplikasi dalam mode development:
 - Untuk fitur pembayaran, gunakan kredensial **Sandbox Midtrans** saat testing.
 
 ---
-Dibuat dengan ❤️ oleh [Muhammad Daffa Najib Fikri]
+Dibuat dengan ❤️ oleh Muhammad Daffa Najib Fikri
