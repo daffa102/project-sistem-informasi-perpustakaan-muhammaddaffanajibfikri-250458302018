@@ -3,8 +3,10 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('dist/assets/compiled/svg/logo.svg') }}" alt="Logo"
-                            srcset=""></a>
+                    <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+                        <span class="fs-4">📚</span>
+                        <span class="fs-5 fw-bold text-primary">SIP IDN</span>
+                    </a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -44,13 +46,13 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.user.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.user.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-grid-fill"></i>
                         <span>User</span>
@@ -58,31 +60,31 @@
                 </li>
                 <li class="sidebar-title">Member</li>
 
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.member.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.member.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-person-lines-fill"></i>
                         <span>Data Member</span>
                     </a>
                 </li>
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.category.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.category.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-tags-fill"></i>
                         <span>Category</span>
                     </a>
                 </li>
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.book.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.book.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-book-fill"></i>
                         <span>Book</span>
                     </a>
                 </li>
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.borrowing.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.borrowing.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-arrow-left-right"></i>
                         <span>Borrowing</span>
                     </a>
                 </li>
-                <li class="sidebar-item  ">
+                <li class="sidebar-item {{ request()->routeIs('admin.fines.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.fines.dashboard') }}" class='sidebar-link' wire:navigate>
                         <i class="bi bi-cash-stack"></i>
                         <span>Fine</span>

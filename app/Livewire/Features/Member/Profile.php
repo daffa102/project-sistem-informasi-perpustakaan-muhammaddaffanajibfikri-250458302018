@@ -22,7 +22,8 @@ class Profile extends Component
         $member = Member::where('user_id', Auth::id())->first();
 
         if ($member) {
-            $this->nim = $member->nim;
+            // If NIM is auto-generated (starts with NIM-), clear it so user can input their own
+            $this->nim = Str::startsWith($member->nim, 'NIM-') ? '' : $member->nim;
             $this->name = $member->name;
             $this->phone = $member->phone;
             $this->address = $member->address;

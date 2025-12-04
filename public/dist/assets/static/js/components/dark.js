@@ -47,18 +47,34 @@ function initTheme() {
   return setTheme(mediaQuery.matches ? "dark" : "light", true)
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+function initThemeToggle() {
   const toggler = document.getElementById("toggle-dark")
   const theme = localStorage.getItem(THEME_KEY)
 
-  if(toggler) {
+  if (toggler) {
     toggler.checked = theme === "dark"
 
-    toggler.addEventListener("input", (e) => {
+    // Clone to remove old listeners
+    const newToggler = toggler.cloneNode(true);
+    toggler.parentNode.replaceChild(newToggler, toggler);
+
+    newToggler.addEventListener("input", (e) => {
       setTheme(e.target.checked ? "dark" : "light", true)
     })
   }
+}
 
+window.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle()
+});
+
+document.addEventListener('livewire:navigated', () => {
+  initThemeToggle()
+  // Re-apply theme to ensure persistence across navigations
+  const storedTheme = localStorage.getItem(THEME_KEY)
+  if (storedTheme) {
+    setTheme(storedTheme)
+  }
 });
 
 initTheme()

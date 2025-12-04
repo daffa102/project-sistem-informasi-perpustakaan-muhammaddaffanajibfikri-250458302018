@@ -5,5 +5,23 @@
     </header>
 
     <div class="page-heading">
-        <h3>Profile Statistics</h3>
+        <h3>
+            @if(request()->routeIs('admin.dashboard'))
+                Dashboard
+            @elseif(request()->routeIs('admin.user.dashboard'))
+                User Management
+            @elseif(request()->routeIs('admin.member.dashboard'))
+                Data Member
+            @elseif(request()->routeIs('admin.category.dashboard'))
+                Category
+            @elseif(request()->routeIs('admin.book.dashboard'))
+                Book Management
+            @elseif(request()->routeIs('admin.borrowing.dashboard'))
+                Borrowing Data
+            @elseif(request()->routeIs('admin.fines.dashboard'))
+                Fines Data
+            @else
+                Admin Panel
+            @endif
+        </h3>
     </div>

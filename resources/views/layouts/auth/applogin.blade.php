@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - LibraryHub</title>
+    <title>Masuk - SIP IDN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
@@ -51,7 +51,6 @@
 </head>
 
 <body class="bg-linear-to-br from-purple-50 via-white to-purple-50">
-    <!-- Navigation -->
     <nav class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -65,29 +64,22 @@
         </div>
     </nav>
 
-    <!-- Login Container -->
     <div class="min-h-screen flex items-center justify-center px-4 pt-20">
         <div class="w-full max-w-md">
-            <!-- Card -->
             <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-                <!-- Header -->
                 <div class="text-center mb-8">
                     <h1 class="text-4xl font-bold text-gray-900 mb-2">Selamat Datang</h1>
                     <p class="text-gray-600">Masuk ke akun LibraryHub Anda</p>
                 </div>
 
-                <!-- Form -->
                 {{ $slot }}
 
-
-                <!-- Footer -->
                 <p class="text-center text-gray-600 mt-8">
                     Belum punya akun? <a href="{{ route('register') }}" wire:navigate
                         class="text-purple-600 font-bold hover:text-purple-700">Daftar sekarang</a>
                 </p>
             </div>
 
-            <!-- Info Box -->
             <div class="mt-8 bg-white/50 backdrop-blur rounded-2xl p-6 border border-white/50">
                 <p class="text-center text-gray-600 text-sm">
                     💡 Tip: Gunakan email dan kata sandi yang aman untuk melindungi akun Anda
