@@ -5,11 +5,11 @@
         <section class="bg-white/80 backdrop-blur-sm shadow-xl rounded-3xl p-8 mb-10 border border-white/50 hover:shadow-2xl transition-all duration-300">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
-                    ⚡
+                    📱
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800">Pinjam Cepat</h2>
-                    <p class="text-sm text-gray-600">Masukkan kode buku atau scan QR Code untuk meminjam langsung</p>
+                    <h2 class="text-2xl font-bold text-gray-800">Scan & Cek Buku</h2>
+                    <p class="text-sm text-gray-600">Scan QR atau masukkan ID buku untuk melihat detail dan ketersediaan</p>
                 </div>
             </div>
 
@@ -18,7 +18,7 @@
                     <input
                         type="text"
                         wire:model="qrcode"
-                        placeholder="Masukkan UUID atau Kode QR Buku"
+                        placeholder="Scan QR Code atau Masukkan ID Buku..."
                         class="w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-purple-300 focus:border-purple-400 transition-all text-gray-800 font-medium"
                     >
                     <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -34,7 +34,17 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
                     </svg>
-                    Pinjam Sekarang
+                    Cari Buku
+                </button>
+
+                <button
+                    type="button"
+                    onclick="startScanner()"
+                    class="bg-white text-purple-600 border-2 border-purple-100 px-6 py-4 rounded-2xl hover:bg-purple-50 transition-all shadow-md hover:shadow-lg font-semibold flex items-center justify-center gap-2 active:scale-95">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
                 </button>
             </form>
 
@@ -197,4 +207,99 @@
             </div>
         </section>
     </main>
+
+    <!-- Scanner Modal -->
+    <div id="scannerModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+             onclick="stopScanner()"></div>
+
+        <!-- Modal Panel -->
+        <div class="relative min-h-screen px-4 text-center">
+            <!-- Centering trick -->
+            <span class="inline-block h-screen align-middle" aria-hidden="true">&#8203;</span>
+
+            <div class="inline-block w-full max-w-lg p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-3xl relative">
+                
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        <span class="text-2xl">📸</span> Scan Kode QR
+                    </h3>
+                    <button type="button" onclick="stopScanner()" class="text-gray-400 hover:text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-full p-2 transition-all">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="relative bg-black rounded-2xl overflow-hidden shadow-inner">
+                    <div id="reader" class="w-full h-64 sm:h-80 bg-black"></div>
+                    <div class="absolute inset-0 pointer-events-none border-2 border-white/30 rounded-2xl"></div>
+                </div>
+
+                <p class="mt-4 text-center text-sm text-gray-500">
+                    Arahkan kamera ke QR Code buku untuk mendeteksi secara otomatis.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script>
+        let html5QrcodeScanner = null;
+
+        function startScanner() {
+            const modal = document.getElementById('scannerModal');
+            modal.classList.remove('hidden');
+
+            if (html5QrcodeScanner === null) {
+                html5QrcodeScanner = new Html5QrcodeScanner(
+                    "reader", 
+                    { 
+                        fps: 10, 
+                        qrbox: { width: 250, height: 250 },
+                        aspectRatio: 1.0
+                    },
+                    /* verbose= */ false
+                );
+            }
+
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
+
+        function stopScanner() {
+            const modal = document.getElementById('scannerModal');
+            modal.classList.add('hidden');
+
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear().catch(error => {
+                    console.error("Failed to clear html5QrcodeScanner. ", error);
+                });
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Handle on success condition with the decoded message.
+            console.log(`Scan result: ${decodedText}`, decodedResult);
+            
+            // Set value to Livewire input
+            @this.set('qrcode', decodedText);
+            
+            // Submit form logic (optional, now we just fill input)
+            // If you want auto-submit uncomment below:
+             @this.submitQRCode();
+
+            stopScanner();
+            
+            // Play beep sound (optional feedback)
+            // const audio = new Audio('path/to/beep.mp3');
+            // audio.play();
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // console.warn(`Code scan error = ${error}`);
+        }
+    </script>
 </div>

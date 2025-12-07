@@ -32,32 +32,31 @@ trait HasBorrowingLogic
 
     public function submitQRCode()
     {
-        $memberId = $this->getMemberId();
-        if (!$memberId) {
-            session()->flash('error', 'Akun Anda tidak punya data member.');
-            return;
-        }
-
+        // 1. Validasi Input
         if (!$this->qrcode) {
-            session()->flash('error', 'Silakan scan QR code terlebih dahulu.');
+            session()->flash('error', 'Silakan scan QR code atau input UUID terlebih dahulu.');
             return;
         }
 
-        // Parse QR Code (UUID or Path)
+        // 2. Parse UUID dari Input
         $uuid = $this->qrcode;
+        // Jika input berupa path/url, ambil filename-nya saja
         if (str_contains($this->qrcode, '/')) {
              $uuid = pathinfo($this->qrcode, PATHINFO_FILENAME);
         }
 
+        // 3. Cek Keberadaan Buku
         $book = Book::find($uuid);
+        
         if (!$book) {
-            session()->flash('error', 'Buku tidak ditemukan.');
+            session()->flash('error', 'Buku tidak ditemukan dalam database.');
             $this->qrcode = '';
             return;
         }
 
-        $this->processBorrowing($book, $memberId);
+        // 4. Redirect ke Halaman Peminjaman (BorrowScanner) dengan parameter UUID
         $this->qrcode = '';
+        return $this->redirect(route('member.borrow.scanner', ['uuid' => $book->id]), navigate: true);
     }
 
     protected function processBorrowing($book, $memberId)

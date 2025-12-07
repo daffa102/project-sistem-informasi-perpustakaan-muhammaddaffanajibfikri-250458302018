@@ -40,6 +40,12 @@ class BorrowScanner extends Component
     public function mount()
     {
         $this->generateMemberFines();
+
+        // Cek apakah ada parameter UUID dari redirect Dashboard
+        if (request()->has('uuid')) {
+            $this->bookUuid = request()->query('uuid');
+            $this->scanBook(); // Otomatis trigger scan logic
+        }
     }
 
     public function getMemberId()
