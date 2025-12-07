@@ -12,9 +12,9 @@
 
 
 
-    <link rel="stylesheet" href="{{ asset('dist/assets/compiled/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/assets/compiled/css/app-dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/assets/compiled/css/iconly.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     {{-- <link rel="stylesheet" href="{{ asset('dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.css') }}"> --}}
         @livewireStyles
@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <script src="{{ asset('dist/assets/static/js/initTheme.js') }}"></script>
+    <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
     <div id="app">
 
         <div id="main">
@@ -38,7 +38,7 @@
 
         </div>
     </div>
-    <script src="{{ asset('dist/assets/static/js/components/dark.js') }}"></script>
+    <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
     {{-- <script src="{{ asset('dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script> --}}
 
 
@@ -101,7 +101,7 @@
             // Clone to remove potential duplicate listeners from app.js if it runs
             const newBurger = burgerBtn.cloneNode(true);
             burgerBtn.parentNode.replaceChild(newBurger, burgerBtn);
-            
+
             newBurger.addEventListener('click', (e) => {
                 e.preventDefault();
                 sidebar.classList.toggle('active');
@@ -117,7 +117,7 @@
                 sidebar.classList.toggle('active');
             });
         }
-        
+
         // Re-init Perfect Scrollbar if needed (optional, check if element exists)
         // const container = document.querySelector('.sidebar-wrapper');
         // if (container && typeof PerfectScrollbar !== 'undefined') {
@@ -127,15 +127,13 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         initAppLogout();
-        // Mazer app.js handles sidebar on load, so we might not need to init here, 
-        // but to be safe and consistent with navigation:
-        // initMazerSidebar(); 
+        initMazerSidebar();
     });
 
     document.addEventListener("livewire:navigated", () => {
         initAppLogout();
         initMazerSidebar();
-        
+
         // Re-init Bootstrap Tooltips/Popovers if used
         if (typeof bootstrap !== 'undefined') {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
